@@ -1,11 +1,37 @@
-<div class="container">
+
+<div class="search" *ngIf="allData">
+  <form (submit)="showValue()">
+    <input type="text" placeholder="{{ placeHolder }}" name="cityName" [(ngModel)]="cityName">
+  </form>
+</div>
+
+<!-- <div>
+  <mat-progress-spinner mode="indeterminate" *ngIf="IsWait" color="accent" style="margin:0 auto;"  diameter="40">
+  </mat-progress-spinner>
+</div> -->
+
+
+<!-- <div class="overlay">
+  <div class="center">
+    <mat-progress-spinner mode="indeterminate" *ngIf="IsWait" color="accent" style="margin:0 auto;" diameter="40">
+    </mat-progress-spinner>
+  </div>
+</div> -->
+<mat-progress-spinner class="center" mode="indeterminate" *ngIf="IsWait" color="accent" style="position: absolute; margin:0 auto;"  diameter="40">
+</mat-progress-spinner>
+<!-- <div class="center">
+  <mat-progress-spinner mode="indeterminate" *ngIf="IsWait" color="accent" style="position: absolute; margin:0 auto;"  diameter="40">
+  </mat-progress-spinner>
+</div> -->
+
+<div class="container" *ngIf="allData">
   <div class="upper-data">
-    <img src="../assets/day.jpg" *ngIf="14 > 15">
-    <img src="../assets/night.jpg" *ngIf="14 <= 15">
+    <img src="../assets/day.jpg" *ngIf="14 < 15">
+    <!-- <img src="../assets/night.jpg" *ngIf="14 <= 15"> -->
     
     <div class="weather-data">
-      <div class="location">Knezha</div>
-      <div class="temperature">{{ 14.40 | number: '1.0-0' }}°C</div>
+      <div class="location">{{ allData.location.name }}</div>
+      <div class="temperature"> {{ allData.current.temp_c }} °C</div> 
     </div>
   </div>
   <div class="lower-data">
@@ -15,41 +41,44 @@
     <div class="more-info-container">
       <div class="info-block">
         <div class="info-block-label">
-          <img src="../assets/cold.png" alt="">
-          <span>min</span>
+          <!-- <img src="../assets/cold.png" alt=""> -->
+          <img *ngIf="isDay" src="../assets/day/{{weatherType.icon}}.png" alt="">
+          <img  *ngIf="!isDay" src="../assets/night/{{weatherType.icon}}.png" alt="">
+          <span *ngIf="isDay" > {{ weatherType.day }} </span>
+          <span *ngIf="!isDay" > {{ weatherType.night }} </span>
         </div>
         <div class="info-block-value">
-          10°C
+          {{ allData.current.temp_c }} °C
         </div>
       </div>
       
       <div class="info-block">
         <div class="info-block-label">
-          <img src="../assets/hot.png" alt="">
-          <span>max</span>
+          <img src="../assets/pressure.png" alt="">
+          <span>Pressure</span>
         </div>
         <div class="info-block-value">
-          20°C
+          {{ allData.current.pressure_in | number : '1.0-1' }} hPa
         </div>
       </div>
       
       <div class="info-block">
         <div class="info-block-label">
           <img src="../assets/humidity.png" alt="">
-          <span>humidity</span>
+          <span>Humidity</span>
         </div>
         <div class="info-block-value">
-          77%
+          {{ allData.current.humidity }} %
         </div>
       </div>
       
       <div class="info-block">
         <div class="info-block-label">
           <img src="../assets/wind.png" alt="">
-          <span>wind</span>
+          <span>Wind</span>
         </div>
         <div class="info-block-value">
-          11 km/h
+          {{ allData.current.wind_kph }} km/h
         </div>
       </div>
     </div>
